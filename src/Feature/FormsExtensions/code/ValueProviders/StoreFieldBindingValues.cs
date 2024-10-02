@@ -1,5 +1,4 @@
 ﻿using Feature.FormsExtensions.Fields.Bindings;
-using Feature.FormsExtensions.XDb;
 using Sitecore.ExperienceForms.Mvc.Pipelines.ExecuteSubmit;
 using Sitecore.Mvc.Pipelines;
 
@@ -8,12 +7,10 @@ namespace Feature.FormsExtensions.ValueProviders
     public class StoreFieldBindingValues : MvcPipelineProcessor<ExecuteSubmitActionsEventArgs>
     {
         private readonly IFieldValueBinderMapFactory fieldValueBinderMapFactory;
-        private readonly IXDbService xDbService;
 
-        public StoreFieldBindingValues(IFieldValueBinderMapFactory fieldValueBinderMapFactory, IXDbService xDbService)
+        public StoreFieldBindingValues(IFieldValueBinderMapFactory fieldValueBinderMapFactory)
         {
             this.fieldValueBinderMapFactory = fieldValueBinderMapFactory;
-            this.xDbService = xDbService;
         }
 
         public override void Process(ExecuteSubmitActionsEventArgs args)
@@ -52,8 +49,6 @@ namespace Feature.FormsExtensions.ValueProviders
                 bindingHandler.StoreValue(value);
                 valuesUpdated = true;
             }
-            if(valuesUpdated)
-                xDbService.ReloadContactDataIntoSession();
         }
     }
 }
